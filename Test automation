@@ -1,0 +1,67 @@
+package com.together01;
+import static org.testng.Assert.assertEquals;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+public class webstaurant   {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		//Webstaurantstore Automation Coding Screen
+
+		//Open Chrome to www.webstaurantstore.com
+		
+    WebDriver driver = new ChromeDriver();
+		driver.get("https://www.webstaurantstore.com/");
+		driver.manage().window().maximize();
+		
+		//Enter 825CI25MS into the Search Field
+		
+    driver.findElement(By.cssSelector("input#searchval")).sendKeys("825CI25MS");
+		
+		//Click the Search button
+		
+    driver.findElement(By.cssSelector("input.btn")).click();
+		
+		//Verify that the search result opens to “Valor 25 oz. Pre-Seasoned Cast Iron Round Server - 12/Pack” detail page
+		
+    String actualText=driver.findElement(By.cssSelector("h1.page-header")).getText();
+		String expectedText="Valor 25 oz. Pre-Seasoned Mini Cast Iron Round Casserole Dish - 12/Case";
+		assertEquals(actualText, expectedText);
+		
+		//Click Add to Cart
+		
+    driver.findElement(By.cssSelector("input#buyButton")).click();
+		
+		//Click the Cart button
+		
+    driver.findElement(By.xpath("//span[@class='btn btn-small btn-primary']")).click();
+		
+		//Verify “Valor 25 oz. Pre-Seasoned Cast Iron Round Server - 12/Pack” is in the cart
+		
+    String expectedText1=driver.findElement(By.xpath("//a[contains(text(),'Mini Cast Iron')]")).getText();
+		assertEquals(actualText, expectedText1);
+		
+		//Click Empty Cart
+		driver.findElement(By.cssSelector("a.emptyCartButton")).click();
+		
+		//Verify that a confirmation appears
+	
+    driver.switchTo().activeElement();
+		String emptyChartMessage = driver.findElement(By.xpath("//h3[contains(text(),'Empty Cart')]")).getText();
+		String expectedMessage="Empty Cart";
+		assertEquals(emptyChartMessage, expectedMessage);
+		
+		//Click the Empty Cart button in the confirmation
+		
+    driver.findElement(By.xpath("//button[contains(text(),'Empty Cart')]")).click();
+		
+		//Close Chrome
+		
+    driver.close();
+	}
+
+}
